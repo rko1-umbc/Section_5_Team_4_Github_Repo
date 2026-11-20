@@ -11,3 +11,5 @@ __pycache__/
 # Credentials
 .env
 .env.*
+
+team_map_backup.json
