@@ -1,0 +1,55 @@
+/* 
+Open the Suggestions tab and choose a template to get started creating different content types for your pop-up. 
+To learn more about using Arcade to create pop-up content visit: 
+https://developers.arcgis.com/arcade/guide/profiles/#popup-element 
+*/
+
+
+var facilityType = Trim(DefaultValue($feature.Facility_Type, ""));
+
+var formName = "Other";
+var formURL = "https://survey123.arcgis.com/share/3b5a0f28ff6f4d21a0ce09b526949166";
+
+// Vegetated Practices
+if (Includes([
+    "Micro-Bioretention",
+    "Bioretention",
+    "Detention Pond",
+    "Wet Pond"
+], facilityType)) {
+    formName = "Vegetated Practices";
+    formURL = "https://arcg.is/1XezSX5";
+}
+
+// Permeable Pavement
+else if (facilityType == "Permeable Pavement") {
+    formName = "Permeable Pavement";
+    formURL = "https://survey123.arcgis.com/share/49995e091e2742b7b88b82ad45dfcdfa";
+}
+
+// Vegetated Roofs
+else if (facilityType == "Green Roof") {
+    formName = "Vegetated Roofs";
+    formURL = "https://arcg.is/1OKSeO4";
+}
+
+ // Autofill fields for the Other inspection form
+if (formName == "Other") {
+    formURL = formURL +
+        "?field:bmp_name=" +
+        UrlEncode(Text(DefaultValue($feature.BMP_Name, ""))) +
+        "&field:facility_type=" +
+        UrlEncode(Text(DefaultValue($feature.Facility_Type, ""))) +
+        "&field:swm_tracking_number=" +
+        UrlEncode(Text(DefaultValue($feature.SWM_Tracking_No, "")));
+}
+
+
+return {
+    type: "text",
+    text: "<b>Recommended Inspection Form:</b> " +
+          "<a href='" + formURL +
+          "' target='_blank'>Open " +
+          formName + " Inspection</a>"
+};
+

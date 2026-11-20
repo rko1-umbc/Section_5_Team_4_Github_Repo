@@ -12,3 +12,5 @@ data/
 # Credentials
 .env
 .env.*
+
+team_map_backup.json
